@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jacopo Giannerini — Controller Freelance</title>
+<meta name="description" content="Controllo di gestione, budgeting e pianificazione finanziaria per PMI. Controller esterno e CFO Fractional a Firenze.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root{--carbone:#242827;--antracite:#2D3130;--grafite:#4A504D;--salvia:#8FA896;--salvia-light:#a8bfae;--terracotta:#C47B5A;--terracotta-dark:#A85C3E;--avorio:#F2EEE4;--panna:#FAFAF7;--sabbia:#E2DED4;--font-display:'Fraunces',Georgia,serif;--font-body:'Nunito Sans','Segoe UI',sans-serif}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);color:var(--antracite);background:var(--avorio);line-height:1.7;font-weight:400;overflow-x:hidden}
+img{max-width:100%;display:block}a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;background:rgba(36,40,39,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(143,168,150,.08);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.15)}
+.nav-logo{font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--avorio);letter-spacing:.3px}
+.nav-logo span{color:var(--salvia)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--salvia-light);letter-spacing:.4px;text-transform:uppercase;transition:color .25s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--terracotta);transition:width .3s}
+.nav-links a:hover{color:var(--avorio)}.nav-links a:hover::after{width:100%}
+.nav-cta{font-size:13px;font-weight:600;color:var(--avorio);background:var(--terracotta);padding:10px 24px;border-radius:4px;transition:background .25s,transform .2s}
+.nav-cta:hover{background:var(--terracotta-dark);transform:translateY(-1px)}
+.nav-hamburger{display:none;cursor:pointer;flex-direction:column;gap:5px;padding:8px}
+.nav-hamburger span{width:22px;height:2px;background:var(--avorio);transition:transform .3s,opacity .3s}
+
+/* HERO */
+.hero{background:var(--carbone);padding:160px 48px 100px;position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center}
+.hero::before{content:'';position:absolute;top:-40%;right:-20%;width:800px;height:800px;background:radial-gradient(circle,rgba(196,123,90,.06) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--salvia),transparent);opacity:.15}
+.hero-inner{max-width:760px;position:relative;z-index:2}
+.hero-eyebrow{font-size:13px;font-weight:600;color:var(--salvia);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-family:var(--font-display);font-size:56px;font-weight:300;color:var(--avorio);line-height:1.15;margin-bottom:28px;letter-spacing:-.5px}
+.hero h1 em{font-style:italic;color:var(--terracotta);font-weight:400}
+.hero p{font-size:18px;color:var(--salvia-light);line-height:1.8;max-width:600px;font-weight:300;margin-bottom:44px}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{display:inline-block;padding:16px 36px;font-size:14px;font-weight:600;color:var(--avorio);background:var(--terracotta);border-radius:4px;transition:all .3s;letter-spacing:.3px}
+.btn-primary:hover{background:var(--terracotta-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,123,90,.3)}
+.btn-secondary{display:inline-block;padding:16px 36px;font-size:14px;font-weight:600;color:var(--salvia-light);border:1px solid rgba(143,168,150,.25);border-radius:4px;transition:all .3s;letter-spacing:.3px}
+.btn-secondary:hover{border-color:var(--salvia);color:var(--avorio)}
+
+/* PROBLEM STRIP */
+.problem-strip{background:var(--carbone);padding:64px 48px;display:flex;justify-content:center;gap:80px;flex-wrap:wrap;border-top:1px solid rgba(143,168,150,.06)}
+.stat-item{text-align:center}
+.stat-number{font-family:var(--font-display);font-size:48px;font-weight:300;color:var(--terracotta);line-height:1}
+.stat-label{font-size:14px;color:var(--salvia-light);margin-top:10px;max-width:200px;font-weight:300}
+
+/* SHARED */
+section{padding:100px 48px}.section-inner{max-width:1120px;margin:0 auto}
+.section-eyebrow{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:14px}
+.section-title{font-family:var(--font-display);font-size:38px;font-weight:400;color:var(--antracite);line-height:1.2;margin-bottom:16px}
+.section-desc{font-size:16px;color:var(--grafite);max-width:600px;line-height:1.7;margin-bottom:56px;font-weight:300}
+
+/* SERVICES */
+.services{background:var(--panna)}.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.service-card{background:white;border:1px solid var(--sabbia);border-radius:8px;padding:36px 30px;transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--sabbia);transition:background .3s}
+.service-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.06)}.service-card:hover::before{background:var(--terracotta)}
+.service-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--salvia);background:rgba(143,168,150,.1);padding:4px 12px;border-radius:20px;margin-bottom:20px}
+.service-name{font-family:var(--font-display);font-size:24px;font-weight:400;color:var(--antracite);margin-bottom:8px}
+.service-price{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--terracotta);margin-bottom:4px}
+.service-price span{font-family:var(--font-body);font-size:14px;color:var(--grafite);font-weight:400}
+.service-desc{font-size:14px;color:var(--grafite);margin:16px 0 20px;line-height:1.7}
+.service-list{list-style:none}.service-list li{font-size:14px;color:var(--antracite);padding:9px 0;border-bottom:1px solid var(--sabbia);display:flex;align-items:center;gap:10px}
+.service-list li:last-child{border-bottom:none}.check{color:var(--salvia);font-weight:700;font-size:15px;flex-shrink:0}
+
+/* PORTFOLIO */
+.portfolio{background:var(--avorio)}.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.portfolio-card{background:white;border:1px solid var(--sabbia);border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .35s cubic-bezier(.25,.8,.25,1),box-shadow .35s;display:flex;flex-direction:column;position:relative}
+.portfolio-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,0,0,.08)}
+.portfolio-card::after{content:'Consulta documento →';position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:rgba(36,40,39,.72);color:var(--avorio);font-size:15px;font-weight:600;letter-spacing:.5px;opacity:0;transition:opacity .3s;backdrop-filter:blur(2px)}
+.portfolio-card:hover::after{opacity:1}
+.portfolio-card-header{padding:28px 28px 20px;background:var(--carbone);position:relative;min-height:140px;display:flex;flex-direction:column;justify-content:flex-end}
+.portfolio-card-header::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(196,123,90,.12) 0%,transparent 70%);pointer-events:none}
+.portfolio-icon{font-size:28px;margin-bottom:12px;opacity:.7}
+.portfolio-card-type{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
+.portfolio-card-title{font-family:var(--font-display);font-size:19px;font-weight:400;color:var(--avorio);line-height:1.3}
+.portfolio-card-body{padding:24px 28px 28px;flex:1;display:flex;flex-direction:column}
+.portfolio-card-client{font-size:12px;font-weight:600;color:var(--salvia);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+.portfolio-card-desc{font-size:14px;color:var(--grafite);line-height:1.7;flex:1;margin-bottom:20px}
+.portfolio-card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.portfolio-tag{font-size:11px;font-weight:600;color:var(--salvia);background:rgba(143,168,150,.1);padding:4px 10px;border-radius:20px;letter-spacing:.3px}
+.portfolio-card.featured .portfolio-card-header{background:linear-gradient(135deg,var(--terracotta-dark) 0%,var(--terracotta) 100%)}
+.portfolio-card.featured .portfolio-card-type{color:var(--avorio);opacity:.8}
+.portfolio-card.featured .portfolio-card-header::before{background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%)}
+.portfolio-card.interactive .portfolio-card-header{background:linear-gradient(135deg,#1a2520 0%,var(--carbone) 100%)}
+.badge-live{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--salvia);background:rgba(143,168,150,.12);padding:4px 10px;border-radius:20px;position:absolute;top:16px;right:16px}
+.badge-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--salvia);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* VIEWER MODAL */
+.viewer-overlay{position:fixed;inset:0;z-index:1000;background:rgba(20,22,21,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .35s ease}
+.viewer-overlay.active{display:flex;opacity:1}.viewer-overlay.closing{opacity:0}
+.viewer-topbar{position:absolute;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;z-index:10;background:linear-gradient(180deg,rgba(20,22,21,.95) 0%,transparent 100%)}
+.viewer-title{font-family:var(--font-display);font-size:18px;color:var(--avorio);font-weight:400}
+.viewer-close{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:var(--avorio);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;font-family:var(--font-body)}
+.viewer-close:hover{background:rgba(255,255,255,.15)}
+.viewer-body{flex:1;width:100%;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:80px 20px 100px;-webkit-user-select:none;user-select:none}
+.viewer-body canvas{max-width:860px;width:100%;margin-bottom:12px;border-radius:4px;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.viewer-body iframe{width:100%;max-width:1100px;flex:1;border:none;border-radius:6px;background:white;min-height:calc(100vh - 180px)}
+.viewer-controls{position:absolute;bottom:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:center;gap:20px;background:linear-gradient(0deg,rgba(20,22,21,.95) 0%,transparent 100%);z-index:10}
+.viewer-btn{padding:10px 22px;border-radius:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:var(--avorio);font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;font-family:var(--font-body)}
+.viewer-btn:hover{background:rgba(255,255,255,.15)}.viewer-btn:disabled{opacity:.3;cursor:default}
+.viewer-page-info{font-size:14px;color:var(--salvia-light);min-width:100px;text-align:center}
+.viewer-loading{color:var(--salvia-light);font-size:15px;display:flex;align-items:center;gap:12px}
+.viewer-loading .spinner{width:20px;height:20px;border:2px solid rgba(143,168,150,.2);border-top-color:var(--terracotta);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* WHY */
+.why{background:var(--panna)}.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.why-number{font-family:var(--font-display);font-size:44px;color:var(--terracotta);font-weight:300;line-height:1;margin-bottom:14px;opacity:.5}
+.why-title{font-size:16px;font-weight:600;color:var(--antracite);margin-bottom:10px}
+.why-text{font-size:14px;color:var(--grafite);line-height:1.7;font-weight:300}
+
+/* ABOUT */
+.about{background:var(--carbone);color:var(--avorio)}.about .section-eyebrow{color:var(--salvia)}.about .section-title{color:var(--avorio)}.about .section-desc{color:var(--salvia-light)}
+.about-content{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.about-text{font-size:16px;color:var(--salvia-light);line-height:1.8;font-weight:300}.about-text strong{color:var(--avorio);font-weight:500}
+.about-highlights{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.highlight-card{background:rgba(143,168,150,.06);border:1px solid rgba(143,168,150,.1);border-radius:8px;padding:22px}
+.highlight-value{font-family:var(--font-display);font-size:28px;color:var(--terracotta);font-weight:400}
+.highlight-label{font-size:13px;color:var(--salvia-light);margin-top:4px;font-weight:300}
+.about-quote{font-family:var(--font-display);font-style:italic;font-size:22px;color:var(--avorio);line-height:1.5;border-left:3px solid var(--terracotta);padding-left:24px}
+.about-quote-attr{font-family:var(--font-body);font-style:normal;font-size:14px;color:var(--salvia);margin-top:16px;padding-left:27px}
+
+/* RISORSE */
+.risorse{background:var(--avorio)}
+.risorse-card{max-width:720px;background:white;border:1px solid var(--sabbia);border-radius:8px;padding:48px;display:flex;gap:40px;align-items:center}
+.risorse-icon{flex-shrink:0;width:80px;height:80px;background:var(--carbone);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px}
+.risorse-content{flex:1}.risorse-content h3{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--antracite);margin-bottom:8px}
+.risorse-content p{font-size:14px;color:var(--grafite);line-height:1.7;margin-bottom:20px}
+.btn-download{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--terracotta);border:1px solid var(--terracotta);padding:12px 28px;border-radius:4px;transition:all .3s}
+.btn-download:hover{background:var(--terracotta);color:var(--avorio)}
+
+/* CTA */
+.cta-section{background:var(--panna);padding:100px 48px;text-align:center}
+.cta-inner{max-width:620px;margin:0 auto}
+.cta-inner h2{font-family:var(--font-display);font-size:44px;font-weight:400;color:var(--antracite);line-height:1.2;margin-bottom:18px}
+.cta-inner p{font-size:16px;color:var(--grafite);margin-bottom:40px;line-height:1.7}
+.cta-contacts{display:flex;justify-content:center;gap:36px;margin-top:36px;flex-wrap:wrap}
+.cta-contact{font-size:14px;color:var(--grafite)}.cta-contact a{color:var(--terracotta);font-weight:500;transition:color .2s}.cta-contact a:hover{color:var(--terracotta-dark)}
+
+/* FOOTER */
+footer{background:var(--carbone);padding:36px 48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(143,168,150,.06)}
+.footer-left{font-size:13px;color:var(--grafite)}.footer-right{display:flex;gap:24px}
+.footer-right a{font-size:13px;color:var(--salvia);transition:color .25s}.footer-right a:hover{color:var(--avorio)}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease-out,transform .7s ease-out}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-inner > *{animation:fadeUp .8s ease-out both}
+.hero-eyebrow{animation-delay:.15s}.hero h1{animation-delay:.3s}.hero p{animation-delay:.45s}.hero-buttons{animation-delay:.6s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.services-grid,.portfolio-grid{grid-template-columns:repeat(2,1fr)}.about-content{grid-template-columns:1fr;gap:40px}}
+@media(max-width:768px){nav{padding:0 24px}.nav-links{display:none}.nav-hamburger{display:flex}nav.menu-open .nav-links{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--carbone);padding:24px 24px 32px;gap:20px;border-bottom:1px solid rgba(143,168,150,.1)}.nav-cta{display:none}.hero{padding:130px 24px 72px;min-height:auto}.hero h1{font-size:36px}.hero p{font-size:16px}.problem-strip{gap:40px;padding:48px 24px}.stat-number{font-size:36px}section{padding:72px 24px}.section-title{font-size:28px}.services-grid,.why-grid,.portfolio-grid{grid-template-columns:1fr}.about-highlights{grid-template-columns:1fr}.cta-inner h2{font-size:30px}footer{flex-direction:column;gap:12px;text-align:center}.risorse-card{flex-direction:column;text-align:center;padding:32px;gap:24px}.viewer-topbar{padding:0 16px}.viewer-title{font-size:14px}}
+@media(max-width:480px){.hero-buttons{flex-direction:column}.btn-primary,.btn-secondary{text-align:center;width:100%}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Jacopo <span>Giannerini</span></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#servizi">Servizi</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#perche">Perché scegliermi</a>
+    <a href="#chi-sono">Chi sono</a>
+    <a href="#contatti">Contatti</a>
+  </div>
+  <a href="#contatti" class="nav-cta">Prenota una call</a>
+  <div class="nav-hamburger" onclick="document.getElementById('nav').classList.toggle('menu-open')"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Controller Freelance · Firenze</div>
+    <h1>Trasformo i numeri in <em>decisioni di crescita</em></h1>
+    <p>Controllo di gestione, budgeting e pianificazione finanziaria per PMI che vogliono crescere con consapevolezza — senza il costo di una risorsa interna a tempo pieno.</p>
+    <div class="hero-buttons">
+      <a href="#contatti" class="btn-primary">Prenota una call gratuita</a>
+      <a href="#portfolio" class="btn-secondary">Guarda il portfolio</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM STRIP -->
+<div class="problem-strip">
+  <div class="stat-item reveal"><div class="stat-number">68%</div><div class="stat-label">delle PMI italiane non ha un controllo di gestione strutturato</div></div>
+  <div class="stat-item reveal"><div class="stat-number">45%</div><div class="stat-label">prende decisioni strategiche senza dati finanziari affidabili</div></div>
+  <div class="stat-item reveal"><div class="stat-number">3/10</div><div class="stat-label">aziende in crescita ha problemi di cash flow non previsti</div></div>
+</div>
+
+<!-- SERVIZI -->
+<section class="services" id="servizi">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">I servizi</div>
+    <div class="section-title reveal">Tre livelli, un unico obiettivo</div>
+    <div class="section-desc reveal">Un'offerta progressiva pensata per accompagnarti dalla prima esigenza operativa fino a un supporto strategico continuativo.</div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-tag">Porta d'ingresso</div>
+        <div class="service-name">Check-Up Finanziario</div>
+        <div class="service-price">1.500€ <span>una tantum</span></div>
+        <div class="service-desc">Una fotografia completa dello stato di salute finanziaria della tua azienda, con diagnosi e piano d'azione.</div>
+        <ul class="service-list"><li><span class="check">✓</span> Analisi bilancio e struttura costi</li><li><span class="check">✓</span> Mappatura flussi di cassa</li><li><span class="check">✓</span> Report PDF 15-20 pagine</li><li><span class="check">✓</span> Call di presentazione risultati</li></ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-tag">Core</div>
+        <div class="service-name">Controller Esterno</div>
+        <div class="service-price">da 1.000€ <span>/ mese</span></div>
+        <div class="service-desc">Un presidio finanziario continuativo: il tuo controller dedicato, senza il costo di una risorsa interna.</div>
+        <ul class="service-list"><li><span class="check">✓</span> Controllo di gestione mensile</li><li><span class="check">✓</span> Budgeting e forecasting</li><li><span class="check">✓</span> Reportistica KPI per il management</li><li><span class="check">✓</span> Call mensili e supporto decisionale</li></ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-tag">Premium</div>
+        <div class="service-name">CFO Fractional</div>
+        <div class="service-price">da 2.500€ <span>/ mese</span></div>
+        <div class="service-desc">Il tuo riferimento finanziario strategico, con un ruolo equiparabile a un CFO part-time nel team di direzione.</div>
+        <ul class="service-list"><li><span class="check">✓</span> Tutti i servizi Controller Esterno</li><li><span class="check">✓</span> Pianificazione strategica</li><li><span class="check">✓</span> Operazioni straordinarie</li><li><span class="check">✓</span> Partecipazione a CdA / direzione</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Portfolio</div>
+    <div class="section-title reveal">Il mio lavoro, in concreto</div>
+    <div class="section-desc reveal">Report, analisi e strumenti reali. Tutti i dati sono fittizi a scopo dimostrativo — la metodologia è reale al 100%. Clicca su ogni card per sfogliare il documento.</div>
+    <div class="portfolio-grid">
+
+      <div class="portfolio-card featured reveal" onclick="openViewer('docs/CheckUp_Finanziario_Rossi_Distribuzione.pdf','Check-Up Finanziario — Rossi Distribuzione','pdf')">
+        <div class="portfolio-card-header"><div class="portfolio-icon">📋</div><div class="portfolio-card-type">Check-Up Finanziario</div><div class="portfolio-card-title">Rossi Distribuzione S.r.l.</div></div>
+        <div class="portfolio-card-body"><div class="portfolio-card-client">Distribuzione Food &amp; Beverage · Firenze</div><div class="portfolio-card-desc">Report completo: executive summary, analisi economica e patrimoniale, cash flow, benchmarking, 5 criticità e piano di raccomandazioni con impatto stimato +180K€ EBITDA/anno.</div><div class="portfolio-card-tags"><span class="portfolio-tag">Diagnosi</span><span class="portfolio-tag">Bilancio</span><span class="portfolio-tag">KPI</span><span class="portfolio-tag">Piano d'azione</span></div></div>
+      </div>
+
+      <div class="portfolio-card reveal" onclick="openViewer('docs/Caso_Studio_Distribuzione_FB.pdf','Caso Studio — Distribuzione F&amp;B','pdf')">
+        <div class="portfolio-card-header"><div class="portfolio-icon">📊</div><div class="portfolio-card-type">Caso Studio</div><div class="portfolio-card-title">Da diagnosi a risultati in 6 mesi</div></div>
+        <div class="portfolio-card-body"><div class="portfolio-card-client">Distribuzione F&amp;B · Case study</div><div class="portfolio-card-desc">Il percorso completo dal check-up all'implementazione del controllo di gestione: contesto, intervento, metriche di risultato e lezioni apprese.</div><div class="portfolio-card-tags"><span class="portfolio-tag">Prima / Dopo</span><span class="portfolio-tag">ROI</span><span class="portfolio-tag">Processo</span></div></div>
+      </div>
+
+      <div class="portfolio-card reveal" onclick="openViewer('docs/Riclassificazione_Bilancio_Portfolio.pdf','Riclassificazione di Bilancio — Toscana Meccanica','pdf')">
+        <div class="portfolio-card-header"><div class="portfolio-icon">📑</div><div class="portfolio-card-type">Riclassificazione di Bilancio</div><div class="portfolio-card-title">Toscana Meccanica S.r.l.</div></div>
+        <div class="portfolio-card-body"><div class="portfolio-card-client">Manifatturiero · Meccanica di precisione</div><div class="portfolio-card-desc">CE gestionale a margini progressivi, SP riclassificato per liquidità, cash flow indiretto e principali indici di bilancio.</div><div class="portfolio-card-tags"><span class="portfolio-tag">CE Gestionale</span><span class="portfolio-tag">SP Riclass.</span><span class="portfolio-tag">Cash Flow</span></div></div>
+      </div>
+
+      <div class="portfolio-card reveal" onclick="openViewer('docs/Budget_Analisi_Scostamenti_Portfolio.pdf','Budget 2025 &amp; Analisi Scostamenti','pdf')">
+        <div class="portfolio-card-header"><div class="portfolio-icon">📈</div><div class="portfolio-card-type">Budget &amp; Scostamenti</div><div class="portfolio-card-title">Budget 2025 — H1 Consuntivo</div></div>
+        <div class="portfolio-card-body"><div class="portfolio-card-client">Toscana Meccanica S.r.l. · Manifatturiero</div><div class="portfolio-card-desc">Report gestionale unificato: budget mensile, consuntivo H1, scostamenti e forecast annuale. Incluse ipotesi, stagionalità e note metodologiche.</div><div class="portfolio-card-tags"><span class="portfolio-tag">Budget</span><span class="portfolio-tag">Forecast</span><span class="portfolio-tag">Varianza</span></div></div>
+      </div>
+
+      <div class="portfolio-card interactive reveal" onclick="openViewer('docs/Dashboard_KPI_Giannerini.html','Dashboard KPI — Cruscotto Direzionale','html')">
+        <div class="portfolio-card-header"><span class="badge-live">Interattiva</span><div class="portfolio-icon">⚡</div><div class="portfolio-card-type">Dashboard KPI</div><div class="portfolio-card-title">Cruscotto direzionale live</div></div>
+        <div class="portfolio-card-body"><div class="portfolio-card-client">Template · HTML interattivo</div><div class="portfolio-card-desc">Dashboard interattiva con KPI economici, andamento margini, grafici a barre e semafori. Pronta all'uso, personalizzabile per ogni cliente.</div><div class="portfolio-card-tags"><span class="portfolio-tag">HTML/JS</span><span class="portfolio-tag">Real-time</span><span class="portfolio-tag">Grafici</span></div></div>
+      </div>
+
+      <div class="portfolio-card reveal" onclick="openViewer('docs/Guida_5_KPI_Imprenditore.pdf','5 KPI che ogni imprenditore dovrebbe monitorare','pdf')">
+        <div class="portfolio-card-header"><div class="portfolio-icon">📘</div><div class="portfolio-card-type">Lead Magnet</div><div class="portfolio-card-title">5 KPI che ogni imprenditore dovrebbe monitorare</div></div>
+        <div class="portfolio-card-body"><div class="portfolio-card-client">Guida gratuita · PDF 7 pagine</div><div class="portfolio-card-desc">Guida pratica con i 5 indicatori essenziali: formula, target, interpretazione e segnali d'allarme per ogni KPI.</div><div class="portfolio-card-tags"><span class="portfolio-tag">Educativo</span><span class="portfolio-tag">Lead Gen</span><span class="portfolio-tag">KPI</span></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIEWER MODAL -->
+<div class="viewer-overlay" id="viewerOverlay" oncontextmenu="return false;">
+  <div class="viewer-topbar">
+    <div class="viewer-title" id="viewerTitle"></div>
+    <button class="viewer-close" onclick="closeViewer()" title="Chiudi">✕</button>
+  </div>
+  <div class="viewer-body" id="viewerBody"></div>
+  <div class="viewer-controls" id="viewerControls" style="display:none;">
+    <button class="viewer-btn" id="btnPrev" onclick="changePage(-1)">← Prec</button>
+    <div class="viewer-page-info" id="pageInfo"></div>
+    <button class="viewer-btn" id="btnNext" onclick="changePage(1)">Succ →</button>
+  </div>
+</div>
+
+<!-- PERCHÉ -->
+<section class="why" id="perche">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Perché scegliermi</div>
+    <div class="section-title reveal">Non teoria, ma esperienza sul campo</div>
+    <div class="section-desc reveal">Unisco competenze finanziarie, mentalità imprenditoriale e un approccio concreto che le grandi società di consulenza non possono replicare.</div>
+    <div class="why-grid">
+      <div class="why-item reveal"><div class="why-number">01</div><div class="why-title">Background imprenditoriale</div><div class="why-text">Ho gestito un'azienda in prima persona per quasi 5 anni. Conosco le sfide di chi deve decidere ogni giorno con risorse limitate.</div></div>
+      <div class="why-item reveal"><div class="why-number">02</div><div class="why-title">Approccio integrato</div><div class="why-text">Non mi limito ai numeri: mi integro nella tua struttura, comprendo il business e porto soluzioni operative concrete.</div></div>
+      <div class="why-item reveal"><div class="why-number">03</div><div class="why-title">Flessibilità e concretezza</div><div class="why-text">Adatto il mio intervento alle tue esigenze reali. Niente pacchetti rigidi: solo ciò che serve davvero alla tua azienda, quando serve.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHI SONO -->
+<section class="about" id="chi-sono">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Chi sono</div>
+    <div class="section-title reveal">Jacopo Giannerini</div>
+    <div class="section-desc reveal">Financial Controller Freelance — Firenze</div>
+    <div class="about-content">
+      <div class="reveal">
+        <div class="about-text">
+          <p>Dopo quasi <strong>5 anni come socio amministratore</strong> di un'attività alberghiera e un <strong>Executive MBA</strong>, ho lavorato nel controllo di gestione e nell'amministrazione aziendale per realtà di diverse dimensioni.</p><br>
+          <p>Oggi aiuto <strong>piccole e medie imprese</strong> a prendere decisioni migliori attraverso numeri chiari, report strutturati e un confronto costante. Il mio approccio combina rigore analitico e pragmatismo imprenditoriale.</p>
+        </div>
+        <div class="about-highlights">
+          <div class="highlight-card"><div class="highlight-value">5 anni</div><div class="highlight-label">Esperienza imprenditoriale diretta</div></div>
+          <div class="highlight-card"><div class="highlight-value">MBA</div><div class="highlight-label">Executive Master in Business Admin</div></div>
+          <div class="highlight-card"><div class="highlight-value">PMI</div><div class="highlight-label">Focus su piccole e medie imprese</div></div>
+          <div class="highlight-card"><div class="highlight-value">100%</div><div class="highlight-label">Dedicato al tuo business</div></div>
+        </div>
+      </div>
+      <div class="about-quote-block reveal">
+        <div class="about-quote">"Non ti darò un report da mettere in un cassetto. Ti darò gli strumenti per decidere meglio, ogni mese."</div>
+        <div class="about-quote-attr">— La mia promessa a ogni cliente</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISORSE -->
+<section class="risorse">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Risorsa gratuita</div>
+    <div class="section-title reveal">Inizia a misurare ciò che conta</div>
+    <div class="section-desc reveal">Una guida pratica per imprenditori che vogliono iniziare a leggere i numeri della propria azienda.</div>
+    <div class="risorse-card reveal">
+      <div class="risorse-icon">📘</div>
+      <div class="risorse-content">
+        <h3>5 KPI che ogni imprenditore dovrebbe monitorare</h3>
+        <p>EBITDA Margin, DSO, Current Ratio, PFN/EBITDA e Free Cash Flow: cosa sono, come calcolarli, quale target tenere e quali segnali d'allarme non ignorare.</p>
+        <a href="mailto:giannerini.jacopo@gmail.com?subject=Richiesta%20Guida%205%20KPI" class="btn-download"><span>Richiedi la guida →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contatti">
+  <div class="cta-inner reveal">
+    <h2>Parliamone.</h2>
+    <p>Se la tua azienda ha bisogno di struttura sui numeri senza il costo di una risorsa interna a tempo pieno, fissiamo una call conoscitiva gratuita di 30 minuti.</p>
+    <a href="mailto:giannerini.jacopo@gmail.com" class="btn-primary">Prenota una call gratuita</a>
+    <div class="cta-contacts">
+      <div class="cta-contact">Email: <a href="mailto:giannerini.jacopo@gmail.com">giannerini.jacopo@gmail.com</a></div>
+      <div class="cta-contact">Tel: <a href="tel:+393920491797">392 049 1797</a></div>
+      <div class="cta-contact"><a href="https://linkedin.com/in/jacopo-giannerini" target="_blank">LinkedIn ↗</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 Jacopo Giannerini — P.IVA [da inserire]</div>
+  <div class="footer-right">
+    <a href="mailto:giannerini.jacopo@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/jacopo-giannerini" target="_blank">LinkedIn</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+</footer>
+
+<script>
+// PDF.js
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let currentPdf=null,currentPage=1,totalPages=0;
+
+function openViewer(src,title,type){
+  const overlay=document.getElementById('viewerOverlay');
+  const body=document.getElementById('viewerBody');
+  const controls=document.getElementById('viewerControls');
+  document.getElementById('viewerTitle').textContent=title;
+  body.innerHTML='<div class="viewer-loading"><div class="spinner"></div>Caricamento in corso...</div>';
+  controls.style.display='none';
+  overlay.classList.add('active');
+  document.body.style.overflow='hidden';
+
+  if(type==='html'){
+    body.innerHTML='<iframe sandbox="allow-scripts allow-same-origin" src="'+src+'"></iframe>';
+  } else {
+    loadPdf(src);
+  }
+}
+
+async function loadPdf(url){
+  const body=document.getElementById('viewerBody');
+  const controls=document.getElementById('viewerControls');
+  try{
+    currentPdf=await pdfjsLib.getDocument({url:url,disableAutoFetch:true}).promise;
+    totalPages=currentPdf.numPages;
+    currentPage=1;
+    controls.style.display='flex';
+    body.innerHTML='';
+    for(let i=1;i<=totalPages;i++){
+      const c=document.createElement('canvas');
+      c.id='page-'+i;c.style.opacity='0';c.style.transition='opacity .4s ease';
+      body.appendChild(c);
+    }
+    updatePageInfo();renderAllPages();
+  }catch(err){
+    body.innerHTML='<div class="viewer-loading" style="color:var(--terracotta);">Impossibile caricare il documento.<br>Verifica che il file sia nella cartella <code style="background:rgba(255,255,255,.1);padding:2px 8px;border-radius:4px;">docs/</code> del repository.</div>';
+  }
+}
+
+async function renderAllPages(){
+  const dpr=window.devicePixelRatio||1;
+  for(let i=1;i<=totalPages;i++){
+    const page=await currentPdf.getPage(i);
+    const canvas=document.getElementById('page-'+i);
+    if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    const desiredW=Math.min(860,window.innerWidth-40);
+    const vp=page.getViewport({scale:1});
+    const scale=(desiredW/vp.width)*dpr;
+    const svp=page.getViewport({scale:scale});
+    canvas.width=svp.width;canvas.height=svp.height;
+    canvas.style.width=(svp.width/dpr)+'px';
+    canvas.style.height=(svp.height/dpr)+'px';
+    await page.render({canvasContext:ctx,viewport:svp}).promise;
+    canvas.style.opacity='1';
+  }
+}
+
+function changePage(d){
+  const n=currentPage+d;
+  if(n<1||n>totalPages)return;
+  currentPage=n;updatePageInfo();
+  const t=document.getElementById('page-'+currentPage);
+  if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updatePageInfo(){
+  document.getElementById('pageInfo').textContent='Pagina '+currentPage+' / '+totalPages;
+  document.getElementById('btnPrev').disabled=currentPage<=1;
+  document.getElementById('btnNext').disabled=currentPage>=totalPages;
+}
+
+// Track visible page on scroll
+document.getElementById('viewerBody').addEventListener('scroll',function(){
+  if(!totalPages)return;
+  for(let i=totalPages;i>=1;i--){
+    const c=document.getElementById('page-'+i);
+    if(c&&c.getBoundingClientRect().top<=window.innerHeight/2){
+      if(currentPage!==i){currentPage=i;updatePageInfo();}break;
+    }
+  }
+});
+
+function closeViewer(){
+  const o=document.getElementById('viewerOverlay');
+  o.classList.add('closing');
+  setTimeout(()=>{
+    o.classList.remove('active','closing');
+    document.getElementById('viewerBody').innerHTML='';
+    document.getElementById('viewerControls').style.display='none';
+    document.body.style.overflow='';
+    currentPdf=null;totalPages=0;
+  },300);
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeViewer();});
+document.getElementById('viewerOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeViewer();});
+document.getElementById('viewerBody').addEventListener('contextmenu',e=>e.preventDefault());
+
+// Nav
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>navEl.classList.toggle('scrolled',window.scrollY>40));
+document.querySelectorAll('.nav-links a').forEach(l=>l.addEventListener('click',()=>navEl.classList.remove('menu-open')));
+
+// Reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const sibs=entry.target.parentElement.querySelectorAll('.reveal');
+      const idx=Array.from(sibs).indexOf(entry.target);
+      entry.target.style.transitionDelay=idx*0.08+'s';
+      entry.target.classList.add('visible');obs.unobserve(entry.target);
+    }
+  });
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
