@@ -60,18 +60,18 @@ section{padding:100px 48px}.section-inner{max-width:1120px;margin:0 auto}
 /* SERVICES */
 .services{background:var(--panna)}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.service-card{background:white;border:1px solid var(--sabbia);border-radius:12px;padding:36px 30px;transition:transform .1s,box-shadow .1s;position:relative;overflow:hidden}
+.service-card{background:white;border:1px solid var(--sabbia);border-radius:12px;padding:36px 30px;transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
 .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.service-card:nth-child(1):hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(45,49,48,.06);}
-.service-card:nth-child(2):hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(45,49,48,.06);}
-.service-card:nth-child(3):hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(45,49,48,.06);}
-.service-card:nth-child(1)::before{background:var(--salvia);}
-.service-card:nth-child(2)::before{background:var(--terracotta);}
-.service-card:nth-child(3)::before{background:var(--antracite);}
+.service-card:nth-child(1):hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(45,49,48,.06);transition:all .3s}
+.service-card:nth-child(2):hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(45,49,48,.06);transition:all .3s}
+.service-card:nth-child(3):hover{transform:translateY(-8px);box-shadow:0 12px 40px rgba(45,49,48,.06);transition:all .3s}
+.service-card:nth-child(1)::before{background:var(--salvia)}
+.service-card:nth-child(2)::before{background:var(--terracotta)}
+.service-card:nth-child(3)::before{background:var(--antracite)}
 .service-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding:4px 10px;border-radius:4px;}
-.service-card:nth-child(1).service-tag{background:#E8F0EA;color:#3A6B48;}
-.service-card:nth-child(2).service-tag{background:#F5E6DD;color:var(--terracotta-dark);}
-.service-card:nth-child(3).service-tag{background:#E8E9E8;color:var(--antracite);}
+.service-card:nth-child(1).service-tag{background:#E8F0EA;color:#3A6B48}
+.service-card:nth-child(2).service-tag{background:#F5E6DD;color:var(--terracotta-dark)}
+.service-card:nth-child(3).service-tag{background:#E8E9E8;color:var(--antracite)}
 .service-name{font-family:var(--font-display);font-size:24px;font-weight:400;color:var(--antracite);margin-bottom:8px}  
 .service-price{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--terracotta);margin-bottom:4px}
 .service-price span{font-family:var(--font-body);font-size:14px;color:var(--grafite);font-weight:400}
