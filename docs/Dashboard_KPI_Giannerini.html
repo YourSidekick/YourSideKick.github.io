@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard KPI — Report Mensile</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --carbone: #242827;
+  --antracite: #2D3130;
+  --grafite: #4A504D;
+  --salvia: #8FA896;
+  --salvia-light: #C8D8CC;
+  --terracotta: #C47B5A;
+  --terracotta-dark: #A85C3E;
+  --avorio: #F2EEE4;
+  --panna: #FAFAF7;
+  --sabbia: #E2DED4;
+  --verde: #5A9E6F;
+  --verde-bg: #E8F0EA;
+  --giallo: #C4A44E;
+  --giallo-bg: #F5F0DD;
+  --rosso: #C45A5A;
+  --rosso-bg: #F5E0E0;
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--antracite); background: var(--avorio); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* ---- HEADER ---- */
+.dash-header {
+  background: var(--carbone);
+  padding: 32px 48px 28px;
+  border-bottom: 3px solid var(--terracotta);
+}
+.dash-header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.dash-header-left {}
+.dash-brand {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--salvia);
+  margin-bottom: 8px;
+}
+.dash-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--avorio);
+  line-height: 1.2;
+}
+.dash-title span { color: var(--terracotta); }
+.dash-header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.dash-meta {
+  font-size: 13px;
+  color: var(--salvia-light);
+  text-align: right;
+  line-height: 1.5;
+}
+.dash-meta strong {
+  color: var(--avorio);
+  font-weight: 600;
+}
+
+/* ---- EXECUTIVE SUMMARY ---- */
+.exec-summary {
+  background: var(--carbone);
+  padding: 0 48px 36px;
+}
+.exec-summary-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  background: rgba(143,168,150,.08);
+  border: 1px solid rgba(143,168,150,.12);
+  border-radius: 10px;
+  padding: 24px 28px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.exec-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--terracotta);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #fff;
+}
+.exec-content {}
+.exec-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--terracotta);
+  margin-bottom: 6px;
+}
+.exec-text {
+  font-size: 14px;
+  color: var(--salvia-light);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.exec-text strong { color: var(--avorio); font-weight: 500; }
+
+/* ---- MONTH NAV ---- */
+.month-nav {
+  background: var(--panna);
+  border-bottom: 1px solid var(--sabbia);
+  padding: 0 48px;
+}
+.month-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.month-tab {
+  padding: 14px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--grafite);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: var(--font-body);
+}
+.month-tab:hover { color: var(--antracite); }
+.month-tab.active {
+  color: var(--terracotta);
+  border-bottom-color: var(--terracotta);
+  font-weight: 700;
+}
+
+/* ---- MAIN CONTENT ---- */
+.dash-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 48px 64px;
+}
+
+/* ---- SECTION TITLES ---- */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--salvia);
+  margin-bottom: 16px;
+  margin-top: 40px;
+}
+.section-label:first-child { margin-top: 0; }
+
+/* ---- KPI CARDS ROW ---- */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.kpi-card {
+  background: var(--panna);
+  border: 1px solid var(--sabbia);
+  border-radius: 10px;
+  padding: 22px 20px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(45,49,48,.06);
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.kpi-card.green::before { background: var(--verde); }
+.kpi-card.yellow::before { background: var(--giallo); }
+.kpi-card.red::before { background: var(--rosso); }
+
+.kpi-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.kpi-name {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--grafite);
+  line-height: 1.3;
+}
+.kpi-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.kpi-badge.green { background: var(--verde-bg); color: var(--verde); }
+.kpi-badge.yellow { background: var(--giallo-bg); color: var(--giallo); }
+.kpi-badge.red { background: var(--rosso-bg); color: var(--rosso); }
+
+.kpi-value {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--antracite);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.kpi-sub {
+  font-size: 12px;
+  color: var(--grafite);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kpi-delta {
+  font-weight: 700;
+  font-size: 12px;
+}
+.kpi-delta.up { color: var(--verde); }
+.kpi-delta.down { color: var(--rosso); }
+.kpi-delta.flat { color: var(--giallo); }
+.kpi-vs { color: var(--grafite); font-weight: 400; }
+
+/* ---- SPARKLINE ---- */
+.sparkline-container {
+  margin-top: 12px;
+  height: 36px;
+  position: relative;
+}
+.sparkline-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- CHARTS GRID ---- */
+.charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.chart-card {
+  background: var(--panna);
+  border: 1px solid var(--sabbia);
+  border-radius: 10px;
+  padding: 24px;
+}
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--antracite);
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.chart-subtitle {
+  font-size: 12px;
+  color: var(--grafite);
+  margin-bottom: 20px;
+}
+
+/* ---- BAR CHART ---- */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 180px;
+  padding-top: 20px;
+  border-bottom: 1px solid var(--sabbia);
+  position: relative;
+}
+.bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar-pair {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  width: 100%;
+  justify-content: center;
+}
+.bar {
+  width: 16px;
+  border-radius: 3px 3px 0 0;
+  transition: height .6s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}
+.bar.actual { background: var(--salvia); }
+.bar.budget { background: var(--sabbia); }
+.bar-label {
+  font-size: 10px;
+  color: var(--grafite);
+  text-align: center;
+  padding-top: 6px;
+  font-weight: 500;
+}
+.bar-legend {
+  display: flex;
+  gap: 20px;
+  margin-top: 14px;
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--grafite);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+.legend-dot.actual { background: var(--salvia); }
+.legend-dot.budget { background: var(--sabbia); }
+
+/* ---- CASHFLOW CHART ---- */
+.cashflow-chart {
+  height: 180px;
+  position: relative;
+  border-bottom: 1px solid var(--sabbia);
+}
+.cashflow-chart svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- SEMAPHORE TABLE ---- */
+.sem-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.sem-table th {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--grafite);
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--sabbia);
+}
+.sem-table th:last-child { text-align: center; }
+.sem-table td {
+  font-size: 13px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sabbia);
+  color: var(--antracite);
+}
+.sem-table tr:last-child td { border-bottom: none; }
+.sem-table td:first-child {
+  font-weight: 600;
+  font-size: 12px;
+}
+.sem-table td:nth-child(2) {
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+.sem-table td:nth-child(3) {
+  font-size: 12px;
+  color: var(--grafite);
+}
+.sem-table td:last-child { text-align: center; }
+.sem-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.sem-dot.green { background: var(--verde); box-shadow: 0 0 8px rgba(90,158,111,.3); }
+.sem-dot.yellow { background: var(--giallo); box-shadow: 0 0 8px rgba(196,164,78,.3); }
+.sem-dot.red { background: var(--rosso); box-shadow: 0 0 8px rgba(196,90,90,.3); }
+
+/* ---- NOTES SECTION ---- */
+.notes-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.note-card {
+  background: var(--panna);
+  border: 1px solid var(--sabbia);
+  border-radius: 10px;
+  padding: 24px;
+}
+.note-card.alert {
+  border-left: 3px solid var(--rosso);
+}
+.note-card.action {
+  border-left: 3px solid var(--terracotta);
+}
+.note-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.note-card.alert .note-title { color: var(--rosso); }
+.note-card.action .note-title { color: var(--terracotta); }
+.note-item {
+  font-size: 13px;
+  color: var(--antracite);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--sabbia);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.note-item:last-child { border-bottom: none; }
+.note-bullet {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.note-card.alert .note-bullet { color: var(--rosso); }
+.note-card.action .note-bullet { color: var(--terracotta); }
+.note-resp {
+  font-size: 11px;
+  color: var(--grafite);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* ---- FOOTER ---- */
+.dash-footer {
+  background: var(--carbone);
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dash-footer-left {
+  font-size: 12px;
+  color: var(--grafite);
+}
+.dash-footer-right {
+  font-size: 12px;
+  color: var(--salvia);
+}
+.dash-footer-right a {
+  color: var(--terracotta);
+  text-decoration: none;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.kpi-card { animation: fadeUp .5s ease-out both; }
+.kpi-card:nth-child(1) { animation-delay: .05s; }
+.kpi-card:nth-child(2) { animation-delay: .1s; }
+.kpi-card:nth-child(3) { animation-delay: .15s; }
+.kpi-card:nth-child(4) { animation-delay: .2s; }
+.chart-card { animation: fadeUp .5s ease-out both; animation-delay: .25s; }
+.note-card { animation: fadeUp .5s ease-out both; animation-delay: .35s; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 1024px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .charts-row { grid-template-columns: 1fr; }
+  .notes-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .dash-header, .exec-summary, .dash-main, .month-nav, .dash-footer { padding-left: 20px; padding-right: 20px; }
+  .kpi-row { grid-template-columns: 1fr; }
+  .dash-header-inner { flex-direction: column; align-items: flex-start; }
+  .dash-meta { text-align: left; }
+  .exec-summary-inner { flex-direction: column; }
+}
+
+/* ---- WATERMARK ---- */
+.watermark {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background: var(--carbone);
+  color: var(--salvia);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(143,168,150,.15);
+  z-index: 50;
+  opacity: .85;
+}
+.watermark span { color: var(--terracotta); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="dash-header">
+  <div class="dash-header-inner">
+    <div class="dash-header-left">
+      <div class="dash-brand">Jacopo Giannerini — Controller Freelance</div>
+      <div class="dash-title">Dashboard KPI <span>Mensile</span></div>
+    </div>
+    <div class="dash-header-right">
+      <div class="dash-meta">
+        <strong>Rossi Arredamenti S.r.l.</strong><br>
+        Periodo: Febbraio 2026 &nbsp;|&nbsp; Emissione: 10/03/2026
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="exec-summary">
+  <div class="exec-summary-inner">
+    <div class="exec-icon">§</div>
+    <div class="exec-content">
+      <div class="exec-label">Executive Summary</div>
+      <div class="exec-text">
+        Febbraio chiude con <strong>fatturato a +8% vs budget</strong> e margine EBITDA in leggera crescita al 18,4%. Il cash flow netto è positivo ma <strong>inferiore alla previsione del 12%</strong> a causa di un ritardo incassi su due clienti chiave. Il <strong>DSO è salito a 68 giorni</strong> (soglia attenzione: 60gg) — si raccomanda azione immediata sul recupero crediti. Costi del personale in linea. Fornitore Logistica Sud ha aumentato le tariffe del 6%: valutare alternativa entro fine mese.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTH NAV -->
+<div class="month-nav">
+  <div class="month-nav-inner">
+    <button class="month-tab">Set</button>
+    <button class="month-tab">Ott</button>
+    <button class="month-tab">Nov</button>
+    <button class="month-tab">Dic</button>
+    <button class="month-tab">Gen</button>
+    <button class="month-tab active">Feb</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="dash-main">
+
+  <!-- KPI PRINCIPALI -->
+  <div class="section-label">KPI Principali — Febbraio 2026</div>
+  <div class="kpi-row">
+
+    <!-- Fatturato -->
+    <div class="kpi-card green">
+      <div class="kpi-top">
+        <div class="kpi-name">Fatturato</div>
+        <div class="kpi-badge green">In target</div>
+      </div>
+      <div class="kpi-value">285K</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta up">▲ +8,2%</span>
+        <span class="kpi-vs">vs budget 263K</span>
+      </div>
+      <div class="sparkline-container">
+        <svg viewBox="0 0 200 36" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sparkGrad1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8FA896" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#8FA896" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,28 L33,24 L66,26 L100,20 L133,18 L166,12 L200,8" fill="none" stroke="#8FA896" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,28 L33,24 L66,26 L100,20 L133,18 L166,12 L200,8 L200,36 L0,36Z" fill="url(#sparkGrad1)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- EBITDA Margin -->
+    <div class="kpi-card green">
+      <div class="kpi-top">
+        <div class="kpi-name">Margine EBITDA</div>
+        <div class="kpi-badge green">In target</div>
+      </div>
+      <div class="kpi-value">18,4%</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta up">▲ +2,1pp</span>
+        <span class="kpi-vs">vs budget 16,3%</span>
+      </div>
+      <div class="sparkline-container">
+        <svg viewBox="0 0 200 36" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sparkGrad2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8FA896" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#8FA896" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,22 L33,20 L66,24 L100,18 L133,16 L166,14 L200,10" fill="none" stroke="#8FA896" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,22 L33,20 L66,24 L100,18 L133,16 L166,14 L200,10 L200,36 L0,36Z" fill="url(#sparkGrad2)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cash Flow Netto -->
+    <div class="kpi-card yellow">
+      <div class="kpi-top">
+        <div class="kpi-name">Cash Flow Netto</div>
+        <div class="kpi-badge yellow">Attenzione</div>
+      </div>
+      <div class="kpi-value">+42,3K</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta down">▼ −12,3%</span>
+        <span class="kpi-vs">vs previsione 48,2K</span>
+      </div>
+      <div class="sparkline-container">
+        <svg viewBox="0 0 200 36" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sparkGrad3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C4A44E" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#C4A44E" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,16 L33,18 L66,14 L100,20 L133,22 L166,16 L200,18" fill="none" stroke="#C4A44E" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,16 L33,18 L66,14 L100,20 L133,22 L166,16 L200,18 L200,36 L0,36Z" fill="url(#sparkGrad3)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- DSO -->
+    <div class="kpi-card red">
+      <div class="kpi-top">
+        <div class="kpi-name">DSO (Days Sales Out.)</div>
+        <div class="kpi-badge red">Critico</div>
+      </div>
+      <div class="kpi-value">68 gg</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta down">▲ +13 gg</span>
+        <span class="kpi-vs">vs target 55 gg</span>
+      </div>
+      <div class="sparkline-container">
+        <svg viewBox="0 0 200 36" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="sparkGrad4" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C45A5A" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#C45A5A" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,28 L33,24 L66,22 L100,18 L133,14 L166,10 L200,6" fill="none" stroke="#C45A5A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,28 L33,24 L66,22 L100,18 L133,14 L166,10 L200,6 L200,36 L0,36Z" fill="url(#sparkGrad4)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: 4 KPI secondari -->
+  <div class="kpi-row" style="margin-top:16px;">
+
+    <!-- PFN -->
+    <div class="kpi-card yellow">
+      <div class="kpi-top">
+        <div class="kpi-name">Posizione Fin. Netta</div>
+        <div class="kpi-badge yellow">Attenzione</div>
+      </div>
+      <div class="kpi-value">−180K</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta flat">● stabile</span>
+        <span class="kpi-vs">vs dic −176K</span>
+      </div>
+    </div>
+
+    <!-- DPO -->
+    <div class="kpi-card green">
+      <div class="kpi-top">
+        <div class="kpi-name">DPO (Days Payable Out.)</div>
+        <div class="kpi-badge green">In target</div>
+      </div>
+      <div class="kpi-value">42 gg</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta up">● in linea</span>
+        <span class="kpi-vs">vs target 45 gg</span>
+      </div>
+    </div>
+
+    <!-- Incidenza Costi Fissi -->
+    <div class="kpi-card green">
+      <div class="kpi-top">
+        <div class="kpi-name">Incid. Costi Fissi</div>
+        <div class="kpi-badge green">In target</div>
+      </div>
+      <div class="kpi-value">32,1%</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta up">▼ −1,8pp</span>
+        <span class="kpi-vs">vs budget 33,9%</span>
+      </div>
+    </div>
+
+    <!-- Costo Personale / Fatturato -->
+    <div class="kpi-card green">
+      <div class="kpi-top">
+        <div class="kpi-name">Costo Pers. / Fatt.</div>
+        <div class="kpi-badge green">In target</div>
+      </div>
+      <div class="kpi-value">24,6%</div>
+      <div class="kpi-sub">
+        <span class="kpi-delta up">▼ −0,4pp</span>
+        <span class="kpi-vs">vs budget 25,0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="section-label">Andamento Economico</div>
+  <div class="charts-row">
+
+    <!-- Fatturato vs Budget -->
+    <div class="chart-card">
+      <div class="chart-title">Fatturato vs Budget</div>
+      <div class="chart-subtitle">Valori in migliaia di euro — ultimi 6 mesi</div>
+      <div class="bar-chart" id="barChart"></div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot actual"></div>Consuntivo</div>
+        <div class="legend-item"><div class="legend-dot budget"></div>Budget</div>
+      </div>
+    </div>
+
+    <!-- Cash Flow -->
+    <div class="chart-card">
+      <div class="chart-title">Cash Flow Netto</div>
+      <div class="chart-subtitle">Trend 6 mesi — valori in K€</div>
+      <div class="cashflow-chart">
+        <svg viewBox="0 0 260 180" preserveAspectRatio="none" id="cfChart">
+          <!-- Grid lines -->
+          <line x1="30" y1="20" x2="260" y2="20" stroke="#E2DED4" stroke-width="0.5"/>
+          <line x1="30" y1="60" x2="260" y2="60" stroke="#E2DED4" stroke-width="0.5"/>
+          <line x1="30" y1="100" x2="260" y2="100" stroke="#E2DED4" stroke-width="0.5" stroke-dasharray="4"/>
+          <line x1="30" y1="140" x2="260" y2="140" stroke="#E2DED4" stroke-width="0.5"/>
+          <!-- Y-axis labels -->
+          <text x="26" y="24" text-anchor="end" fill="#4A504D" font-size="9" font-family="Nunito Sans">80</text>
+          <text x="26" y="64" text-anchor="end" fill="#4A504D" font-size="9" font-family="Nunito Sans">60</text>
+          <text x="26" y="104" text-anchor="end" fill="#4A504D" font-size="9" font-family="Nunito Sans">40</text>
+          <text x="26" y="144" text-anchor="end" fill="#4A504D" font-size="9" font-family="Nunito Sans">20</text>
+          <!-- Area fill -->
+          <defs>
+            <linearGradient id="cfGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C47B5A" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#C47B5A" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M50,80 L88,60 L126,70 L164,50 L202,55 L240,65 L240,165 L50,165Z" fill="url(#cfGrad)"/>
+          <!-- Line -->
+          <path d="M50,80 L88,60 L126,70 L164,50 L202,55 L240,65" fill="none" stroke="#C47B5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Dots -->
+          <circle cx="50" cy="80" r="4" fill="#C47B5A"/>
+          <circle cx="88" cy="60" r="4" fill="#C47B5A"/>
+          <circle cx="126" cy="70" r="4" fill="#C47B5A"/>
+          <circle cx="164" cy="50" r="4" fill="#C47B5A"/>
+          <circle cx="202" cy="55" r="4" fill="#C47B5A"/>
+          <circle cx="240" cy="65" r="4" fill="#fff" stroke="#C47B5A" stroke-width="2.5"/>
+          <!-- Values -->
+          <text x="50" y="72" text-anchor="middle" fill="#C47B5A" font-size="9" font-weight="600" font-family="Nunito Sans">38K</text>
+          <text x="88" y="52" text-anchor="middle" fill="#C47B5A" font-size="9" font-weight="600" font-family="Nunito Sans">52K</text>
+          <text x="126" y="62" text-anchor="middle" fill="#C47B5A" font-size="9" font-weight="600" font-family="Nunito Sans">45K</text>
+          <text x="164" y="42" text-anchor="middle" fill="#C47B5A" font-size="9" font-weight="600" font-family="Nunito Sans">58K</text>
+          <text x="202" y="47" text-anchor="middle" fill="#C47B5A" font-size="9" font-weight="600" font-family="Nunito Sans">55K</text>
+          <text x="240" y="57" text-anchor="middle" fill="#A85C3E" font-size="9" font-weight="700" font-family="Nunito Sans">42K</text>
+          <!-- X-axis labels -->
+          <text x="50" y="178" text-anchor="middle" fill="#4A504D" font-size="9" font-family="Nunito Sans">Set</text>
+          <text x="88" y="178" text-anchor="middle" fill="#4A504D" font-size="9" font-family="Nunito Sans">Ott</text>
+          <text x="126" y="178" text-anchor="middle" fill="#4A504D" font-size="9" font-family="Nunito Sans">Nov</text>
+          <text x="164" y="178" text-anchor="middle" fill="#4A504D" font-size="9" font-family="Nunito Sans">Dic</text>
+          <text x="202" y="178" text-anchor="middle" fill="#4A504D" font-size="9" font-family="Nunito Sans">Gen</text>
+          <text x="240" y="178" text-anchor="middle" fill="#A85C3E" font-size="9" font-weight="700" font-family="Nunito Sans">Feb</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEMAFORO TABLE -->
+  <div class="section-label">Quadro Sinottico KPI</div>
+  <div class="chart-card">
+    <table class="sem-table">
+      <thead>
+        <tr>
+          <th>Indicatore</th>
+          <th>Valore</th>
+          <th>vs Budget / Target</th>
+          <th>Stato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fatturato</td>
+          <td>285.400€</td>
+          <td>+8,2% vs 263.700€</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+        <tr>
+          <td>Margine Contribuzione</td>
+          <td>42,3%</td>
+          <td>+1,5pp vs 40,8%</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+        <tr>
+          <td>EBITDA</td>
+          <td>52.500€</td>
+          <td>+21,8% vs 43.100€</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+        <tr>
+          <td>Margine EBITDA</td>
+          <td>18,4%</td>
+          <td>+2,1pp vs 16,3%</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+        <tr>
+          <td>Cash Flow Netto</td>
+          <td>+42.300€</td>
+          <td>−12,3% vs 48.200€</td>
+          <td><span class="sem-dot yellow"></span></td>
+        </tr>
+        <tr>
+          <td>DSO</td>
+          <td>68 gg</td>
+          <td>+13 gg vs target 55 gg</td>
+          <td><span class="sem-dot red"></span></td>
+        </tr>
+        <tr>
+          <td>DPO</td>
+          <td>42 gg</td>
+          <td>−3 gg vs target 45 gg</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+        <tr>
+          <td>PFN / EBITDA</td>
+          <td>2,86x</td>
+          <td>vs soglia 3,0x</td>
+          <td><span class="sem-dot yellow"></span></td>
+        </tr>
+        <tr>
+          <td>Incidenza Costi Fissi</td>
+          <td>32,1%</td>
+          <td>−1,8pp vs 33,9%</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+        <tr>
+          <td>Costo Personale / Fatt.</td>
+          <td>24,6%</td>
+          <td>−0,4pp vs 25,0%</td>
+          <td><span class="sem-dot green"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTE E AZIONI -->
+  <div class="section-label">Note e Azioni Correttive</div>
+  <div class="notes-row">
+    <div class="note-card alert">
+      <div class="note-title">⚠ Anomalie Rilevate</div>
+      <div class="note-item">
+        <span class="note-bullet">●</span>
+        <div>
+          <strong>DSO a 68 giorni (+13 vs target):</strong> due fatture scadute da oltre 45 giorni verso Mobilificio Bianchi (22K€) e Studio Arch. Neri (15K€). Rischio impatto liquidità marzo.
+          <div class="note-resp">→ Resp: Amministrazione | Scadenza: 20/03</div>
+        </div>
+      </div>
+      <div class="note-item">
+        <span class="note-bullet">●</span>
+        <div>
+          <strong>Costo trasporti +6%:</strong> aumento tariffe Logistica Sud S.r.l. senza preavviso contrattuale. Impatto stimato: +8K€/anno.
+          <div class="note-resp">→ Resp: Acquisti | Scadenza: 31/03</div>
+        </div>
+      </div>
+      <div class="note-item">
+        <span class="note-bullet">●</span>
+        <div>
+          <strong>PFN/EBITDA a 2,86x:</strong> vicino alla soglia covenant bancario (3,0x). Monitoraggio mensile rafforzato.
+          <div class="note-resp">→ Resp: Controller | Scadenza: continuativo</div>
+        </div>
+      </div>
+    </div>
+    <div class="note-card action">
+      <div class="note-title">→ Azioni Raccomandate</div>
+      <div class="note-item">
+        <span class="note-bullet">①</span>
+        <div>
+          Attivare <strong>procedura di sollecito formale</strong> verso i due clienti in ritardo e valutare l'applicazione degli interessi di mora previsti da contratto.
+          <div class="note-resp">→ Priorità: ALTA</div>
+        </div>
+      </div>
+      <div class="note-item">
+        <span class="note-bullet">②</span>
+        <div>
+          Richiedere <strong>tre preventivi alternativi</strong> per il servizio trasporti e contestare l'aumento unilaterale a Logistica Sud.
+          <div class="note-resp">→ Priorità: MEDIA</div>
+        </div>
+      </div>
+      <div class="note-item">
+        <span class="note-bullet">③</span>
+        <div>
+          Anticipare la <strong>revisione del forecast Q2</strong> per incorporare i nuovi ordini di marzo e aggiornare la proiezione di cassa a 8 settimane.
+          <div class="note-resp">→ Priorità: MEDIA</div>
+        </div>
+      </div>
+      <div class="note-item">
+        <span class="note-bullet">④</span>
+        <div>
+          Preparare <strong>documentazione per la banca</strong> con piano di rientro PFN in vista della review semestrale di giugno.
+          <div class="note-resp">→ Priorità: BASSA (scadenza maggio)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="dash-footer">
+  <div class="dash-footer-left">Documento riservato — Preparato da Jacopo Giannerini per Rossi Arredamenti S.r.l.</div>
+  <div class="dash-footer-right">
+    <a href="mailto:giannerini.jacopo@gmail.com">giannerini.jacopo@gmail.com</a> &nbsp;|&nbsp; 392 049 1797
+  </div>
+</div>
+
+<!-- WATERMARK -->
+<div class="watermark">Portfolio <span>Sample</span></div>
+
+<script>
+// Bar chart - Fatturato vs Budget (6 mesi)
+const barData = [
+  { month: 'Set', actual: 248, budget: 250 },
+  { month: 'Ott', actual: 262, budget: 255 },
+  { month: 'Nov', actual: 271, budget: 260 },
+  { month: 'Dic', actual: 295, budget: 280 },
+  { month: 'Gen', actual: 278, budget: 270 },
+  { month: 'Feb', actual: 285, budget: 264 },
+];
+
+const maxVal = 310;
+const barChart = document.getElementById('barChart');
+
+barData.forEach((d, i) => {
+  const group = document.createElement('div');
+  group.className = 'bar-group';
+
+  const pair = document.createElement('div');
+  pair.className = 'bar-pair';
+
+  const barActual = document.createElement('div');
+  barActual.className = 'bar actual';
+  barActual.style.height = '0px';
+  barActual.title = `Consuntivo: ${d.actual}K`;
+
+  const barBudget = document.createElement('div');
+  barBudget.className = 'bar budget';
+  barBudget.style.height = '0px';
+  barBudget.title = `Budget: ${d.budget}K`;
+
+  pair.appendChild(barActual);
+  pair.appendChild(barBudget);
+
+  const label = document.createElement('div');
+  label.className = 'bar-label';
+  label.textContent = d.month;
+
+  group.appendChild(pair);
+  group.appendChild(label);
+  barChart.appendChild(group);
+
+  // Animate
+  setTimeout(() => {
+    barActual.style.height = (d.actual / maxVal * 160) + 'px';
+    barBudget.style.height = (d.budget / maxVal * 160) + 'px';
+  }, 300 + i * 80);
+});
+
+// Month tabs interactivity (visual only)
+document.querySelectorAll('.month-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
